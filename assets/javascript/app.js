@@ -43,9 +43,9 @@ var trivia = {
     incorrect = 0,
     timer= 15,
     timerOn= false,
-    timer: "",
+    timer: "";
 
-    questions {}
+    questions {
         a1 = "Who is Goku's best friend?",
         a2 = "Who is Goku's first master?",
         a3 = "What is the name of Goku's brother?",
@@ -71,7 +71,7 @@ var trivia = {
         a10 = ['Dog', 'Cat', 'Ape', 'Dragon'],
     };
 
-    correctAnswer {
+    correctAnswer [
         a1 = 'Krillin',
         a2 = 'Roshi',
         a3 = 'Raditz',
@@ -82,7 +82,7 @@ var trivia = {
         a8 = 'Bardock',
         a9 = 'Nimbus',
         a10 = 'Ape',
-    }; 
+    ]
 
     startGame = function() {
         trivia.correct = 0;
@@ -115,12 +115,84 @@ var trivia = {
 
         var questionOptions = object.values(trivia.possibleAnswer);
 
-        $.each(questionpossibleAnswer, function(index, key)) {
+        $.each(questionpossibleAnswer, function(index, key) {
             $('possibleAnswer').append($("<button class='option btn btn-info btn-lg'>" +key+ '</button>'))
-        }
+        })
 
     }
-    
-}
 
-document.getElementById("button").addEventListerner('click', startTimer);
+    timerRunning = function(){
+        if(trivia.timer > -1 < Object.keys(tivia.questions).length){
+            $('#timer').text(trivia.timer);
+            trivia.timer--;
+                if(trivia.timer === 4) {
+                    $('#timer').addClass('last-seconds');
+                }
+        } else if(trivia.timer === -1){
+        trivia.unanswered++;
+        trivia.result = false;
+        clearInterval(trivia.timerId);
+        resultId = setTimeout(trivia.guessResult, 1000);
+        $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers)[trivia.currentSet] +'</h3>');
+    }
+    
+      else if(trivia.currentSet === Object.keys(trivia.questions).length){
+        
+       
+        $('#results')
+          .html('<h3>Thank you for playing!</h3>'+
+          '<p>Correct: '+ trivia.correct +'</p>'+
+          '<p>Incorrect: '+ trivia.incorrect +'</p>'+
+          '<p>Unaswered: '+ trivia.unanswered +'</p>'+
+          '<p>Please play again!</p>');
+        
+        $('#game').hide();
+        
+        $('#start').show();
+    }
+      
+    guessChecker = function() {
+      
+      // timer ID for gameResult setTimeout
+      var resultId;
+      
+      // the answer to the current question being asked
+      var currentAnswer = Object.values(trivia.answers)[trivia.currentSet];
+      
+      // if the text of the option picked matches the answer of the current question, increment correct
+      if($(this).text() === currentAnswer){
+        // turn button green for correct
+        $(this).addClass('btn-success').removeClass('btn-info');
+        
+        trivia.correct++;
+        clearInterval(trivia.timerId);
+        resultId = setTimeout(trivia.guessResult, 1000);
+        $('#results').html('<h3>Correct Answer!</h3>');
+      }
+      // else the user picked the wrong option, increment incorrect
+      else{
+        
+        $(this).addClass('btn-danger').removeClass('btn-info');
+        
+        trivia.incorrect++;
+        clearInterval(trivia.timerId);
+        resultId = setTimeout(trivia.guessResult, 1500);
+        $('#results').html('<h3>Better luck next time! '+ currentAnswer +'</h3>');
+      }
+      
+    }
+    
+    guessResult = function(){
+      
+      
+      trivia.currentSet++;
+      
+      
+      $('.option').remove();
+      $('#results h3').remove();
+      
+     
+      trivia.nextQuestion();
+       
+    }   
+}
