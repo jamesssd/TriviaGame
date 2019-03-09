@@ -15,91 +15,112 @@
     //wrong
     //wrong
 
-console.log('linked');
+// console.log('linked');
 
-$('.clickMe').on('click', function(event){
-    console.log('clicked');
-    consoile.log($(this).attr('id'))
-})
+// $('.clickMe').on('click', function(event){
+//     console.log('clicked');
+//     consoile.log($(this).attr('id'))
+// })
 
-const quizContainer = document.getElementById('quiz');
+// const quizContainer = document.getElementById('quiz');
 
-const resultsContainer = document.getElementById('results');
-const submitButton = document.getElementById('submit');
-
-
-function buildQuiz() {}
+// const resultsContainer = document.getElementById('results');
+// const submitButton = document.getElementById('submit');
 
 
-## Instructions
+// function buildQuiz() {}
 
-You have an array of filenames with extensions. Sort the files into arrays based on whether or not they are videos or images.
+$(document).ready(function(){
 
-```javascript
-  var files = [
-    "pavans_first_birthday.mov",
-    "owens_asleep_at_the_computer.jpg",
-    "michael_fights_a_polar_bear.mp4",
-    "nate_road_rage.avi",
-    "ruby_skydiving.jpeg",
-    "ken_getting_his_black_belt.png",
-    "dan_winning_underground_street_race.mov",
-    "its_hard_to_come_up_with_file_names.gif",
-    "seriously_this_is_taking_too_long.mpg",
-    "i_wonder_how_many_of_these_i_should_have.png",
-    "probably_a_few_more.avi",
-    "nutmeg_is_clawing_my_sneakers_again.mp4",
-    "cat_i_will_destroy_you.gif",
-    "i_wish_we_had_a_dog.jpeg",
-    "stop_looking_at_me_like_that_nutmeg.mpeg",
-    "aww_i_cant_hate_you.png",
-    "omg_my_sneakers.avi",
-    "cat_you_are_the_worst.mp4"
-  ];
-```
+    $("#remaining-time").hide();
+    $("start").on('click', trivia.startGame);
+    $(document).on('click', '.option', trivia.guessChecker);
 
-## Info
+});
 
-### Image File Extensions
+var trivia = {
+    correct= 0,
+    incorrect = 0,
+    timer= 15,
+    timerOn= false,
+    timer: "",
 
-* jpg
-* gif
-* jpeg
-* png
-
-### Video File Extensions
-
-* mov
-* avi
-* mpeg
-* mp4
-* mpg
-
-
-function extensionSorter(fileArray) {
-    var videoArray = [];
-    var imageArray = [];
-    var videoExt = ['mov', 'mp4', 'avi', 'gif'];
+    questions {}
+        a1 = "Who is Goku's best friend?",
+        a2 = "Who is Goku's first master?",
+        a3 = "What is the name of Goku's brother?",
+        a4 = "What is Goku's real name?",
+        a5 = "Who is Goku's rival?",
+        a6 = "Who is the youngest Super Saiyan?",
+        a7 = "Who created the Dragonball radar?",
+        a8 = "What is the name of Goku's father?",
+        a9 = "What is the name of Goku's cloud?",
+        a10 = "What kind of animal does a Saiyan turn into during a full moon?",
+    };
     
-    for (let i = 0; i < fileArray.length; i++) {
-        const element = fileArray[i];
-        // console.log(element)    
-        // how do we read he extension of each element in javascript?
-        // input-> pavans_first_birthday
-        // output-> .mov
-        console.log('SPLIT STRING: ', element.split('.'));
+    possibleAnswer {
+        a1 = ['Bulma', 'Tien', 'Yamcha', 'Krillin'],
+        a2 = ['Gohan', 'Roshi', 'Kami', 'Cooler'],
+        a3 = ['Raditz', 'Vegeta', 'Nama', 'ChiChi'],
+        a4 = ['Carrot', 'Bardock', 'Dende', 'Kakarot'],
+        a5 = ['Vegeta', 'Raditz', 'Goten', 'Gohan'],
+        a6 = ['Gohan', 'Trunks', 'Pan', 'Goten'],
+        a7 = ['Bulma', 'Krillin', 'Goku', 'Trunks'],
+        a8 = ['Piccolo', 'Napa', 'Bardock', 'Yamcha'],
+        a9 = ['Stratus', 'Nimbus', 'Nimbostratus', 'Stratocumulus'],
+        a10 = ['Dog', 'Cat', 'Ape', 'Dragon'],
+    };
 
-        var extension = element.split(".")[1];
-        console.log("EXTENSION: ", extension);
-        //inpout -> mov
-        //output -> videoArray['mov]
-        if(videoExt.indexOf(extension) !== -1){
-           videoArray.push(extension);
-        }else(
-            imageArray.push(extension);
-        )
+    correctAnswer {
+        a1 = 'Krillin',
+        a2 = 'Roshi',
+        a3 = 'Raditz',
+        a4 = 'Kakarot',
+        a5 = 'Vegeta',
+        a6 = 'Goten',
+        a7 = 'Bulma',
+        a8 = 'Bardock',
+        a9 = 'Nimbus',
+        a10 = 'Ape',
+    }; 
+
+    startGame = function() {
+        trivia.correct = 0;
+        trivia.incorrect = 0;
+        clearInterval(trivia.timer);
+        
+        $('#game').show();
+
+        $('#result').html('');
+
+        $('#timer').text(trivia.timer);
+
+        $('#start').hide();
+
+        $('#remainingTime').show();
+
+        trivia.nextQuestion();
+    };
+
+    nextQuestion = function(){
+        trivia.timer = 15;
+        $('#timer').removeClass('lastSeconds');
+        $('#timer').text(trivia.timer);
+        if(!timer.timerOn) {
+            trivia.timer = setInterva;(trivia.timerRunning, 1500);
+        }
+
+        var questionContent = object.values(trivia.questions);
+        $('#question').text(questionContent);
+
+        var questionOptions = object.values(trivia.possibleAnswer);
+
+        $.each(questionpossibleAnswer, function(index, key)) {
+            $('possibleAnswer').append($("<button class='option btn btn-info btn-lg'>" +key+ '</button>'))
+        }
+
     }
+    
 }
 
-console.log("VIDEO EXT: ", videoArray);
-console.log('IMG EXT: ', imageArray);
+document.getElementById("button").addEventListerner('click', startTimer);
