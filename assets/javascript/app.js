@@ -1,51 +1,14 @@
-// Pseudocode
+$("start").on('click', trivia.startGame);
+$(document).on('click', '.option', trivia.guessChecker);
 
-// Timers 
-// DOM Manipulation
-// Buttons / Answers
-// Score Varible DOM
-//Object (Array to store the questions)
-
-//Title
-//TImer (when timer is out, show correct answer) function eventHandler for correct and wrong answer
-//Question? (incorrect question, show correct answer) function, same as the one on top
-//Answer (correct answer, next question and reset timer, function)
-    //right
-    //wrong
-    //wrong
-    //wrong
-
-// console.log('linked');
-
-// $('.clickMe').on('click', function(event){
-//     console.log('clicked');
-//     consoile.log($(this).attr('id'))
-// })
-
-// const quizContainer = document.getElementById('quiz');
-
-// const resultsContainer = document.getElementById('results');
-// const submitButton = document.getElementById('submit');
-
-
-// function buildQuiz() {}
-
-$(document).ready(function(){
-
-    $("#remaining-time").hide();
-    $("start").on('click', trivia.startGame);
-    $(document).on('click', '.option', trivia.guessChecker);
-
-});
-
+var intervalId;
 var trivia = {
-    correct= 0,
+    correct = 0,
     incorrect = 0,
-    timer= 15,
-    timerOn= false,
-    timer: "";
+    timerOn = false,
+    timerId = '',
 
-    questions {
+    question = {
         a1 = "Who is Goku's best friend?",
         a2 = "Who is Goku's first master?",
         a3 = "What is the name of Goku's brother?",
@@ -56,9 +19,9 @@ var trivia = {
         a8 = "What is the name of Goku's father?",
         a9 = "What is the name of Goku's cloud?",
         a10 = "What kind of animal does a Saiyan turn into during a full moon?",
-    };
+    },
     
-    possibleAnswer {
+    possibleAnswer = {
         a1 = ['Bulma', 'Tien', 'Yamcha', 'Krillin'],
         a2 = ['Gohan', 'Roshi', 'Kami', 'Cooler'],
         a3 = ['Raditz', 'Vegeta', 'Nama', 'ChiChi'],
@@ -69,9 +32,9 @@ var trivia = {
         a8 = ['Piccolo', 'Napa', 'Bardock', 'Yamcha'],
         a9 = ['Stratus', 'Nimbus', 'Nimbostratus', 'Stratocumulus'],
         a10 = ['Dog', 'Cat', 'Ape', 'Dragon'],
-    };
+    },
 
-    correctAnswer [
+    correctAnswer = {
         a1 = 'Krillin',
         a2 = 'Roshi',
         a3 = 'Raditz',
@@ -82,7 +45,7 @@ var trivia = {
         a8 = 'Bardock',
         a9 = 'Nimbus',
         a10 = 'Ape',
-    ]
+    },
 
     startGame = function() {
         trivia.correct = 0;
@@ -100,7 +63,7 @@ var trivia = {
         $('#remainingTime').show();
 
         trivia.nextQuestion();
-    };
+    },
 
     nextQuestion = function(){
         trivia.timer = 15;
@@ -119,7 +82,7 @@ var trivia = {
             $('possibleAnswer').append($("<button class='option btn btn-info btn-lg'>" +key+ '</button>'))
         })
 
-    }
+    },
 
     timerRunning = function(){
         if(trivia.timer > -1 < Object.keys(tivia.questions).length){
@@ -129,13 +92,12 @@ var trivia = {
                     $('#timer').addClass('last-seconds');
                 }
         } else if(trivia.timer === -1){
-        trivia.unanswered++;
-        trivia.result = false;
-        clearInterval(trivia.timerId);
-        resultId = setTimeout(trivia.guessResult, 1000);
-        $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers)[trivia.currentSet] +'</h3>');
-    }
-    
+            trivia.unanswered++;
+            trivia.result = false;
+            clearInterval(trivia.timerId);
+            resultId = setTimeout(trivia.guessResult, 1000);
+            $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers) +'</h3>');
+        }    
       else if(trivia.currentSet === Object.keys(trivia.questions).length){
         
        
@@ -149,7 +111,7 @@ var trivia = {
         $('#game').hide();
         
         $('#start').show();
-    }
+    }  
       
     guessChecker = function() {
       
@@ -169,7 +131,7 @@ var trivia = {
         resultId = setTimeout(trivia.guessResult, 1000);
         $('#results').html('<h3>Correct Answer!</h3>');
       }
-      // else the user picked the wrong option, increment incorrect
+      
       else{
         
         $(this).addClass('btn-danger').removeClass('btn-info');
@@ -194,5 +156,5 @@ var trivia = {
      
       trivia.nextQuestion();
        
-    }   
+    } 
 }
