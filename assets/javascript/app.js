@@ -1,160 +1,168 @@
-$("start").on('click', trivia.startGame);
-$(document).on('click', '.option', trivia.guessChecker);
+const start = document.getElementById("start");
+const quiz = document.getElementById("quiz");
+const question = document.getElementById("question");
+const qImg = document.getElementById("qImg");
+const choiceA = document.getElementById("A");
+const choiceB = document.getElementById("B");
+const choiceC = document.getElementById("C");
+const counter = document.getElementById("counter");
+const timeGauge = document.getElementById("timeGauge");
+const progress = document.getElementById("progress");
+const scoreDiv = document.getElementById("scoreContainer");
 
-var intervalId;
-var trivia = {
-    correct = 0,
-    incorrect = 0,
-    timerOn = false,
-    timerId = '',
-
-    question = {
-        a1 = "Who is Goku's best friend?",
-        a2 = "Who is Goku's first master?",
-        a3 = "What is the name of Goku's brother?",
-        a4 = "What is Goku's real name?",
-        a5 = "Who is Goku's rival?",
-        a6 = "Who is the youngest Super Saiyan?",
-        a7 = "Who created the Dragonball radar?",
-        a8 = "What is the name of Goku's father?",
-        a9 = "What is the name of Goku's cloud?",
-        a10 = "What kind of animal does a Saiyan turn into during a full moon?",
+let questions = [
+    {
+        question: "Who is Goku's best friend?",
+        choiceA: 'Bulma',
+        choiceB: 'Tien',
+        choiceC: 'Yamcha',
+        choiceD: 'Krillin',
+        correct: "D"
     },
-    
-    possibleAnswer = {
-        a1 = ['Bulma', 'Tien', 'Yamcha', 'Krillin'],
-        a2 = ['Gohan', 'Roshi', 'Kami', 'Cooler'],
-        a3 = ['Raditz', 'Vegeta', 'Nama', 'ChiChi'],
-        a4 = ['Carrot', 'Bardock', 'Dende', 'Kakarot'],
-        a5 = ['Vegeta', 'Raditz', 'Goten', 'Gohan'],
-        a6 = ['Gohan', 'Trunks', 'Pan', 'Goten'],
-        a7 = ['Bulma', 'Krillin', 'Goku', 'Trunks'],
-        a8 = ['Piccolo', 'Napa', 'Bardock', 'Yamcha'],
-        a9 = ['Stratus', 'Nimbus', 'Nimbostratus', 'Stratocumulus'],
-        a10 = ['Dog', 'Cat', 'Ape', 'Dragon'],
+    {
+        question: "Who is Goku's first master?",
+        choiceA : 'Gohan',
+        choiceB : 'Roshi',
+        choiceC : 'Kami',
+        choiceD : 'Cooler',
+        correct : "B"
     },
-
-    correctAnswer = {
-        a1 = 'Krillin',
-        a2 = 'Roshi',
-        a3 = 'Raditz',
-        a4 = 'Kakarot',
-        a5 = 'Vegeta',
-        a6 = 'Goten',
-        a7 = 'Bulma',
-        a8 = 'Bardock',
-        a9 = 'Nimbus',
-        a10 = 'Ape',
+    {
+        question: "What is the name of Goku's brother?",
+        choiceA: 'Raditz',  
+        choiceB: 'Vegeta',
+        choiceC: 'Luffy',
+        choiceD: 'ChiChi',
+        correct: 'A'
     },
-
-    startGame = function() {
-        trivia.correct = 0;
-        trivia.incorrect = 0;
-        clearInterval(trivia.timer);
-        
-        $('#game').show();
-
-        $('#result').html('');
-
-        $('#timer').text(trivia.timer);
-
-        $('#start').hide();
-
-        $('#remainingTime').show();
-
-        trivia.nextQuestion();
+    {
+        question: "What is Goku's real name?",
+        choiceA: 'Carrot',
+        choiceB: 'Bardock',
+        choiceC: 'Dende',
+        choiceD: 'Kakarot',
+        correct: 'D'
     },
-
-    nextQuestion = function(){
-        trivia.timer = 15;
-        $('#timer').removeClass('lastSeconds');
-        $('#timer').text(trivia.timer);
-        if(!timer.timerOn) {
-            trivia.timer = setInterva;(trivia.timerRunning, 1500);
-        }
-
-        var questionContent = object.values(trivia.questions);
-        $('#question').text(questionContent);
-
-        var questionOptions = object.values(trivia.possibleAnswer);
-
-        $.each(questionpossibleAnswer, function(index, key) {
-            $('possibleAnswer').append($("<button class='option btn btn-info btn-lg'>" +key+ '</button>'))
-        })
-
+    {
+        question: "Who is Goku's rival?",
+        choiceA: 'Vegeta',
+        choiceB: 'Raditz',
+        choiceC: 'Goten',
+        choiceD: 'Gohan',
+        correct: 'A'
     },
-
-    timerRunning = function(){
-        if(trivia.timer > -1 < Object.keys(tivia.questions).length){
-            $('#timer').text(trivia.timer);
-            trivia.timer--;
-                if(trivia.timer === 4) {
-                    $('#timer').addClass('last-seconds');
-                }
-        } else if(trivia.timer === -1){
-            trivia.unanswered++;
-            trivia.result = false;
-            clearInterval(trivia.timerId);
-            resultId = setTimeout(trivia.guessResult, 1000);
-            $('#results').html('<h3>Out of time! The answer was '+ Object.values(trivia.answers) +'</h3>');
-        }    
-      else if(trivia.currentSet === Object.keys(trivia.questions).length){
-        
-       
-        $('#results')
-          .html('<h3>Thank you for playing!</h3>'+
-          '<p>Correct: '+ trivia.correct +'</p>'+
-          '<p>Incorrect: '+ trivia.incorrect +'</p>'+
-          '<p>Unaswered: '+ trivia.unanswered +'</p>'+
-          '<p>Please play again!</p>');
-        
-        $('#game').hide();
-        
-        $('#start').show();
-    }  
-      
-    guessChecker = function() {
-      
-      // timer ID for gameResult setTimeout
-      var resultId;
-      
-      // the answer to the current question being asked
-      var currentAnswer = Object.values(trivia.answers)[trivia.currentSet];
-      
-      // if the text of the option picked matches the answer of the current question, increment correct
-      if($(this).text() === currentAnswer){
-        // turn button green for correct
-        $(this).addClass('btn-success').removeClass('btn-info');
-        
-        trivia.correct++;
-        clearInterval(trivia.timerId);
-        resultId = setTimeout(trivia.guessResult, 1000);
-        $('#results').html('<h3>Correct Answer!</h3>');
-      }
-      
-      else{
-        
-        $(this).addClass('btn-danger').removeClass('btn-info');
-        
-        trivia.incorrect++;
-        clearInterval(trivia.timerId);
-        resultId = setTimeout(trivia.guessResult, 1500);
-        $('#results').html('<h3>Better luck next time! '+ currentAnswer +'</h3>');
-      }
-      
+    {
+        question: "Who is the youngest Super Saiyan?",
+        choiceA: 'Gohan',
+        choiceB: 'Trunks',
+        choiceC: 'Pan',
+        choiceD: 'Goten',
+        correct: 'D'
+    },
+    {
+        question: "Who created the Dragonball radar?",
+        choiceA: 'Bulma',
+        choiceB: 'Krillin',
+        choiceC: 'Goku',
+        choiceD: 'Trunks',
+        correct: 'A'
+    },
+    {
+        question: "What is the name of Goku's father?",
+        choiceA: 'Piccolo',
+        choiceB: 'Napa',
+        choiceC: 'Bardock',
+        choiceD: 'Yamcha',
+        correct: 'C'
+    },
+    {
+        question: "What is the name of Goku's cloud?",
+        choiceA: 'Stratus',
+        choiceB: 'Nimbus',
+        choiceC: 'Nimbostratus',
+        choiceD: 'Stratocumulus',
+        correct: 'B'
+    },
+    {
+        question: "What kind of animal does a Saiyan turn into during a full moon?",
+        choiceA: 'Dog',
+        choiceB: 'Cat',
+        choiceC: 'Ape',
+        choiceD: 'Dragon',
+        correct: 'C'
     }
-    
-    guessResult = function(){
-      
-      
-      trivia.currentSet++;
-      
-      
-      $('.option').remove();
-      $('#results h3').remove();
-      
-     
-      trivia.nextQuestion();
-       
-    } 
+];
+
+let lastQuestionIndex = questions.length - 1;
+let runningQuestionIndex = 0;
+let count = 0;
+const questionTime = 10;
+
+function renderQuestion(){
+    let q = question[runningQuestionIndex];
+    question.innerHTML = "<p>" + q.question + "</p>";
+    choiceA.innerHTML = q.choiceA;
+    choiceB.innerHTML = q.choiceB;
+    choiceC.innerHTML = q.choiceC;
+    choiceD.innerHTML = q.choiceD;
+};
+
+start.addEventListener("click",startQuiz);
+
+function startQuiz(){
+    start.style.display = "none";
+    renderQuestion();
+    quiz.style.display = "block";
+    renderProgress();
+    renderCounter();
+    TIMER = setInterval(renderCounter,1000);
+}
+
+function renderProgress(){
+    for(let qIndex = 0; qIndex <= lastQuestion; qIndex++){
+        progress.innerHTML += "<div class='prog' id="+ qIndex +"></div>";
+    }
+}
+
+function renderCounter(){
+    if(count <= questionTime){
+        counter.innerHTML = count;
+        timeGauge.style.width = count * gaugeUnit + "px";
+        count++
+    }else{
+        count = 0;
+        answerIsWrong();
+        if(runningQuestion < lastQuestion){
+            runningQuestion++;
+            renderQuestion();
+        }else{
+            clearInterval(TIMER);
+            scoreRender();
+        }
+    }
+}
+
+function checkAnswer(answer){
+    if( answer == questions[runningQuestion].correct){
+        score++;
+        answerIsCorrect();
+    }else{
+        answerIsWrong();
+    }
+    count = 0;
+    if(runningQuestion < lastQuestion){
+        runningQuestion++;
+        renderQuestion();
+    }else{
+        clearInterval(TIMER);
+        scoreRender();
+    }
+}
+
+function answerIsCorrect(){
+    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
+}
+
+function answerIsWrong(){
+    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
 }
