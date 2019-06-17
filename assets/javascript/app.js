@@ -17,7 +17,7 @@ $(document).ready(function(){
     timerOn: false,
     timerId : '',
     // questions options and answers data
-    questions = {
+    questions: {
         q1: "Who is Goku's best friend?",
         q2: "Who is Goku's first master?",
         q3: "What is the name of Goku's brother?",

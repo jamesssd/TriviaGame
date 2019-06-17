@@ -1,5 +1,5 @@
 body{
-	background-image: "./assets/images/Background.jpg";
+	background-image: url(./assets/images/Background.jpg);
 	text-align: center;
 }
 
